@@ -1,5 +1,6 @@
+'use strict';
 window.addEventListener('DOMContentLoaded', ()=>{
-    'use strict';
+
     let tab = document.querySelectorAll('.info-header-tab'),
         info = document.querySelector('.info-header'),
         tabContent = document.querySelectorAll(".info-tabcontent");
@@ -84,4 +85,31 @@ function setClock(id,deadLine) {
 }
 
 setClock('timer',deadLine);
+
+//Modal window
+
+let more = document.querySelector('.more'),
+overlay = document.querySelector('.overlay'),
+close = document.querySelector('.popup-close');
+
+more.addEventListener('click', ()=>{
+overlay.style.display = 'block';
+more.classList.add('more-splash');
+document.body.style.overflow = 'hidden';
+});
+
+close.addEventListener('click', ()=>{
+overlay.style.display = 'none';
+more.classList.remove('more-splash');
+document.body.style.overflow = '';
+});
+
+let btnmore = document.querySelectorAll('.description-btn');
+
+for(let i = 0; i<btnmore.length;i++){
+btnmore[i].addEventListener('click',()=>{
+overlay.style.display = 'block';
+document.body.style.overflow = 'hidden';
+});
+}
 });
