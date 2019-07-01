@@ -139,9 +139,9 @@ form2.addEventListener('submit',(event)=>{
 
     let obj={};
 
-    let formData = new FormData();
+    let formData2 = new FormData();
 
-    formData.forEach((value, key)=>{
+    formData2.forEach((value, key)=>{
         obj[key] = value;
     });
 
@@ -164,30 +164,44 @@ form.addEventListener('submit',(event)=>{
     event.preventDefault();
     form.appendChild(statusMassage);
 
-    let request = new XMLHttpRequest();
-    request.open('POST','server.php');
-    request.setRequestHeader('Content-Type','application/json; charset =utf-8');
-
-    let obj={};
-
-    let formData = new FormData();
-
-    formData.forEach((value, key)=>{
-        obj[key] = value;
+        let formData1 = new FormData();
+        let request = new XMLHttpRequest();
+        function postData(data){
+        return new Promise((resolve,reject)=>{ request.open('POST','server.php');
+        request.setRequestHeader('Content-Type','application/json; charset =utf-8');
+    
+        let obj={};
+    
+        
+    
+        formData1.forEach((value, key)=>{
+            obj[key] = value;
+        });
+    
+        let json = JSON.stringify(obj);
+    
+        request.send(json);
+    
+        request.addEventListener('readystatechange', ()=>{
+            if(request.readyState < 4){
+                resolve();
+            } else if (request.readyState === 4 && request.status == 200){
+                resolve();
+            } else{
+                reject();
+            }
     });
+});
+}
+postData(formData1).then(()=>{
+    statusMassage.innerHTML = massege.loading;
+}).then(()=>{
+    statusMassage.innerHTML = massege.complete;
+}).catch(()=>{
+    statusMassage.innerHTML =massege.failure;
+});
 
-    let json = JSON.stringify(obj);
-
-    request.send(json);
-
-    request.addEventListener('readystatechange', ()=>{
-        if(request.readyState < 4){
-            statusMassage.innerHTML = massege.loading;
-        } else if (request.readyState === 4 && request.status == 200){
-            statusMassage.innerHTML =massege.complete;
-        } else{
-            statusMassage.innerHTML =massege.failure;
-        }
-    });
+    
+    
 });
 });
