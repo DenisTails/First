@@ -199,9 +199,116 @@ postData(formData1).then(()=>{
     statusMassage.innerHTML = massege.complete;
 }).catch(()=>{
     statusMassage.innerHTML =massege.failure;
+}); 
 });
 
-    
-    
+//slider!! : )
+
+let sliderIndex = 1,
+    sliders = document.querySelectorAll('.slider-item'),
+    prev = document.querySelector('.prev'),
+    next = document.querySelector('.next'),
+    dotsWrap = document.querySelector('.slider-dots'),
+    dots = document.querySelectorAll('.dot');
+
+showSlides(sliderIndex);
+function showSlides (n){
+    if (n>sliders.length){
+        sliderIndex = 1;
+    }
+    if (n<1){
+        sliderIndex = sliders.length;
+    }
+
+    sliders.forEach((item) => item.style.display = 'none');
+
+    dots.forEach((item) => item.classList.remove('dot-active'));
+
+    sliders[sliderIndex-1].style.display = 'block';
+    dots[sliderIndex-1].classList.add('dot-active');
+}
+
+function plusSlide (n){
+    showSlides(sliderIndex+=n);
+}
+function currentSlide (n){
+    showSlides(sliderIndex=n);
+}
+prev.addEventListener('click',()=>{
+    plusSlide(-1);
 });
+next.addEventListener('click',()=>{
+    plusSlide(1);
+});
+
+dotsWrap.addEventListener('click',(event)=>{
+    for(let i = 0;i<dotsWrap.length+1;i++){
+        if(event.target.classList.contains('dot')&& event.target == dots[i-1]){
+            currentSlide(i);
+        }
+    }
+});
+
+//calc
+
+let person = document.querySelectorAll('.counter-block-input')[0],
+restDays = document.querySelectorAll('.counter-block-input')[1],
+place = document.getElementById('select'),
+totalValue = document.getElementById('total'),
+personSum = 0,
+daySum = 0,
+total = 0;
+
+
+totalValue.innerHTML = 0;
+
+person.addEventListener('input',()=>{
+if(restDays.value == ''){
+    restDays.value = 0;
+    daySum = 0;
+}
+personSum = +person.value;
+if(restDays.value == 0 || person.value == 0){
+    daySum = 0;
+    personSum = 0;
+}else{
+    daySum = restDays.value;
+    personSum = person.value;
+}
+total = (+personSum + +daySum)*4000*place.value;
+totalValue.innerHTML = total;
+if(restDays.value == 0 || restDays.value == ''){
+    total = 0;
+    totalValue.innerHTML = total;
+}
+if(restDays.value == ""){
+    total = 0;
+    totalValue.innerHTML = total;
+}
+});
+restDays.addEventListener('input',()=>{
+    if(person.value == ''){
+        person.value = 0;
+        personSum = 0;
+    }
+    daySum = +restDays.value;
+    if(restDays.value == 0 || person.value == 0){
+        daySum = 0;
+        personSum = 0;
+    }else{
+        daySum = restDays.value;
+        personSum = person.value;
+    }
+    total = (+personSum + +daySum)*4000*place.value;
+    totalValue.innerHTML = total;
+    if(person.value == 0 || person.value == ''){
+        total = 0;
+        totalValue.innerHTML = total;
+    }
+    });
+
+    place.addEventListener('change', ()=>{
+        total = ((+personSum + +daySum)*4000)*place.value;
+        totalValue.innerHTML = total;
+    })
 });
