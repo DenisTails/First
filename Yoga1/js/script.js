@@ -310,5 +310,5 @@ restDays.addEventListener('input',()=>{
     place.addEventListener('change', ()=>{
         total = ((+personSum + +daySum)*4000)*place.value;
         totalValue.innerHTML = total;
-    })
+    });
 });
